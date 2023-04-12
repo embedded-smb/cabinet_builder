@@ -16,7 +16,9 @@ SOURCES += \
     partdrillobj.cpp \
     partpoint.cpp \
     partrect.cpp \
-    sheet.cpp
+    parttextobj.cpp \
+    sheet.cpp \
+    timer.cpp
 
 HEADERS += \
     dxf_file.h \
@@ -25,7 +27,9 @@ HEADERS += \
     partdrillobj.h \
     partpoint.h \
     partrect.h \
-    sheet.h
+    parttextobj.h \
+    sheet.h \
+    timer.h
 
 FORMS += \
     mainwindow.ui

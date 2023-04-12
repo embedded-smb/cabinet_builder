@@ -312,7 +312,7 @@ void dxf_file::write(QList<PartPoint*> point_list)
     stream << temp->Z() << "\n";
 }
 
-void dxf_file::write_text(PartPoint pos, QString text, qreal height)
+void dxf_file::write_text(PartPoint* pos, QString text, qreal height)
 {
     QTextStream stream(file);
     stream << "  0\n";
@@ -322,9 +322,9 @@ void dxf_file::write_text(PartPoint pos, QString text, qreal height)
     stream << "  39\n";  // Thickness
     stream << "20\n";  // Thickness Value
     stream << "  10\n";  // X
-    stream << pos.X() << "\n";
+    stream << pos->X() << "\n";
     stream << "  20\n";  // Y
-    stream << pos.Y() << "\n";
+    stream << pos->Y() << "\n";
     stream << "  40\n";  // Height
     stream << height << "\n";
     stream << "  41\n";  // Relative X Scale Factor - Width
@@ -333,18 +333,17 @@ void dxf_file::write_text(PartPoint pos, QString text, qreal height)
     stream << text << "\n";
 }
 
-void dxf_file::write_hole(PartPoint pos, qreal diameter)
+void dxf_file::write_hole(PartPoint* pos, qreal diameter)
 {
     QTextStream stream(file);
-
     stream << "  0\n";
     stream << "CIRCLE\n";
     stream << "  39\n";
     stream << "1\n";
     stream << "  10\n";
-    stream << pos.X() << "\n";
+    stream << pos->X() << "\n";
     stream << "  20\n";
-    stream << pos.Y() << "\n";
+    stream << pos->Y() << "\n";
     stream << "  40\n";
     stream << diameter << "\n";
 }

@@ -1,9 +1,11 @@
 #include "sheet.h"
 #include "dxf_file.h"
 #include "partdrillobj.h"
+#include "parttextobj.h"
 
 #include <QRectF>
 #include <QVector>
+#include <QDebug>
 
 Sheet::Sheet()
     : _layer(""),
@@ -24,38 +26,44 @@ void Sheet::AddPart(Part* part, PartPoint offset)
 
 void Sheet::WriteDXF(QString filename)
 {
-//    AutoArrange();
     dxf_file file;
 
     file.open(filename);
 
     QList<Part*>::Iterator part_itr;
     Part* temp;
+    Part* subpart_temp;
 
     for (part_itr=_part_list.begin();part_itr!=_part_list.end();part_itr++)
     {
         temp = *part_itr;
         file.write(temp->_point_list);
 
-        for (QList<PartDrillObj>::Iterator itr=temp->_drill_list.begin(); itr != temp->_drill_list.end(); itr++)
+        for (QList<PartDrillObj*>::Iterator itr=temp->_drill_list.begin(); itr != temp->_drill_list.end(); itr++)
         {
-            PartDrillObj drill = *itr;
+            PartDrillObj* drill = *itr;
 
-            file.write_hole(*drill.center(), drill.diameter());
+            file.write_hole(drill->center(), drill->diameter());
+        }
+
+        for (QList<PartTextObj*>::Iterator itr=temp->_text_list.begin(); itr != temp->_text_list.end(); itr++)
+        {
+            PartTextObj* text_obj = *itr;
+
+            file.write_text(text_obj->point(), text_obj->text(), text_obj->size());
         }
 
         QList<Part*>::Iterator subpart_itr;
 
-        for (subpart_itr=_part_list.begin();subpart_itr!=_part_list.end();subpart_itr++)
+        for (subpart_itr=temp->_sub_part_list.begin();subpart_itr!=temp->_sub_part_list.end();subpart_itr++)
         {
-            temp = *subpart_itr;
-            file.write(temp->_point_list);
+            subpart_temp = *subpart_itr;
+
+            file.write(subpart_temp->_point_list);
         }
     }
 
-
     file.close();
-
 }
 
 

@@ -22,7 +22,7 @@ private:
     quint32  _grid_width;
     quint32  _grid_length;
 
-    QList<Part*>           _part_list;
+    QList<Part*>            _part_list;
     QVector<QVector<bool>> _grid;
 
     void AutoArrange();

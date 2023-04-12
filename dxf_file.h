@@ -23,8 +23,8 @@ public:
     void write_hole(QPointF pos, qreal diameter, QPointF offset = QPointF(0.0, 0.0));
 
     void write(QList<PartPoint*> point_list);
-    void write_text(PartPoint pos, QString text, qreal height);
-    void write_hole(PartPoint pos, qreal diameter);
+    void write_text(PartPoint* pos, QString text, qreal height);
+    void write_hole(PartPoint* pos, qreal diameter);
 
 private:
     QFile* file;
